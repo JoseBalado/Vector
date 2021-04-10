@@ -1,5 +1,7 @@
 using System;
 using Xunit;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -20,6 +22,20 @@ namespace UnitTests
             var controller = new App.Controllers.CountryNameController();
             var result = controller.Get(code);
             Assert.True(result.name == "Spain");
+        }
+
+        public static IEnumerable<Object[]> Data =>
+            new List<Object[]> {
+                new object[] {new App.Country { name = "abcde", code = "ab" }}
+        };
+
+        [Theory]
+         [MemberData(nameof(Data))]
+        public void Test3(App.Country country)
+        {
+            var controller = new App.Controllers.CreateCountryController();
+            var result = controller.Post(country);
+            Assert.True(result == $"name: {country.name}, code: {country.code}");
         }
     }
 }
