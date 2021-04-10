@@ -19,7 +19,6 @@ namespace App.Controllers
         public string Post([FromBody] Country country)
         {
             string path = Path.Combine("data", "country.txt");
-            System.IO.File.CreateText(path);
             using (StreamWriter sw = System.IO.File.CreateText(path))
             {
                 sw.WriteLine($"{{ \"name\": \"{country.name}\", \"code\": \"{country.code}\"}}");
