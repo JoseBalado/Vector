@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.IO;
-using System.Text;
-using System.Collections;
 using Microsoft.Extensions.Configuration;
 
 namespace App.Controllers
