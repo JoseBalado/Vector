@@ -1,16 +1,32 @@
 using System;
 using Xunit;
-using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace UnitTests
 {
     public class UnitTest1
     {
+        private IConfiguration _config;
+
+        public IConfiguration Configuration
+        {
+            get
+            {
+                if (_config == null)
+                {
+                    var builder = new ConfigurationBuilder().AddJsonFile($"MyConfig.json", optional: false);
+                    _config = builder.Build();
+                }
+
+                return _config;
+            }
+        }
+
         [Fact]
         public void Test1()
         {
-            var controller = new App.Controllers.CountriesController();
+            var controller = new App.Controllers.CountriesController(Configuration);
             var result = controller.Get();
             Assert.True(result.Length > 0);
         }
@@ -19,7 +35,7 @@ namespace UnitTests
         [InlineData("es")]
         public void Test2(string code)
         {
-            var controller = new App.Controllers.CountryNameController();
+            var controller = new App.Controllers.CountryNameController(Configuration);
             var result = controller.Get(code);
             Assert.True(result.name == "Spain");
         }
@@ -30,10 +46,10 @@ namespace UnitTests
         };
 
         [Theory]
-         [MemberData(nameof(Data))]
+        [MemberData(nameof(Data))]
         public void Test3(App.Country country)
         {
-            var controller = new App.Controllers.CreateCountryController();
+            var controller = new App.Controllers.CreateCountryController(Configuration);
             var result = controller.Post(country);
             Assert.True(result == $"name: {country.name}, code: {country.code}");
         }
