@@ -8,6 +8,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Configuration;
 
 namespace App.Controllers
 {
@@ -15,10 +16,19 @@ namespace App.Controllers
     [Route("[controller]")]
     public class CreateCountryController : ControllerBase
     {
+        private readonly IConfiguration Configuration;
+
+        public CreateCountryController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         [HttpPost]
         public string Post([FromBody] Country country)
         {
-            string path = Path.Combine("data", "country.txt");
+            var directory = Configuration["Directory"];
+            var createCountryfileName = Configuration["CreateCountryFileName"];
+            string path = Path.Combine(directory, createCountryfileName);
             using (StreamWriter sw = System.IO.File.CreateText(path))
             {
                 sw.WriteLine($"{{ \"name\": \"{country.name}\", \"code\": \"{country.code}\"}}");
