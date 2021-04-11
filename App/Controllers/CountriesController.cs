@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text;
 using System.Collections;
+using Microsoft.Extensions.Configuration;
 
 namespace App.Controllers
 {
@@ -14,10 +15,18 @@ namespace App.Controllers
     [Route("[controller]")]
     public class CountriesController : ControllerBase
     {
+        private readonly IConfiguration Configuration;
+
+        public CountriesController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         [HttpGet]
         public string Get()
         {
-            string path = Path.Combine("data", "countries.json");
+            var directory = Configuration["Directory"];
+            var createCountryfileName = Configuration["CountriesFileName"];
+            string path = Path.Combine(directory, createCountryfileName);
             string readText = System.IO.File.ReadAllText(path);
             return readText;
         }
