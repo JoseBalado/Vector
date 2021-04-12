@@ -18,8 +18,8 @@ namespace App.Controllers
         public string Get()
         {
             var directory = Configuration["Directory"];
-            var createCountryfileName = Configuration["CountriesFileName"];
-            string path = Path.Combine(directory, createCountryfileName);
+            var countriesFileName = Configuration["CountriesFileName"];
+            string path = Path.Combine(directory, countriesFileName);
             string readText = System.IO.File.ReadAllText(path);
             return readText;
         }

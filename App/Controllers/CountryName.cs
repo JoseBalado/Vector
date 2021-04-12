@@ -22,8 +22,8 @@ namespace App.Controllers
         public Country Get(string code = "")
         {
             var directory = Configuration["Directory"];
-            var createCountryfileName = Configuration["CountriesFileName"];
-            string path = Path.Combine(directory, createCountryfileName);
+            var countriesFileName = Configuration["CountriesFileName"];
+            string path = Path.Combine(directory, countriesFileName);
             string jsonString = System.IO.File.ReadAllText(path);
             List<Country> countries = JsonSerializer.Deserialize<List<Country>>(jsonString);
             return countries.Where(country => country.code == code.ToUpper()).FirstOrDefault();
