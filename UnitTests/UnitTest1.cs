@@ -53,5 +53,17 @@ namespace UnitTests
             var result = controller.Post(country);
             Assert.True(result == $"name: {country.name}, code: {country.code}");
         }
+
+        // Acceptance Test: Check that the path for production is the correct one
+        [Fact]
+        public void AcceptanceTest()
+        {
+            var directory = Configuration["Directory"];
+            var createCountryfileName = Configuration["CreateCountryFileName"];
+            var countriesFileName = Configuration["CountriesFileName"];
+            Assert.True(directory == "data");
+            Assert.True(createCountryfileName == "country.json");
+            Assert.True(countriesFileName == "countries.json");
+        }
     }
 }
